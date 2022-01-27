@@ -1,0 +1,75 @@
+server:
+  port: 9200
+  max-http-header-size: 512000
+  servlet:
+    encoding:
+      force: true
+      charset: UTF-8
+  jetty:
+    accesslog:
+      enabled: true
+    threads:
+      max: 4000
+      min: 400
+      acceptors: 400
+      selectors: 400
+      max-queue-capacity: 2000
+    max-http-form-post-size: 10
+spring:
+  application:
+    name: camel-consul-client
+
+service:
+  api:
+    base-path: /services/camel-consul-client
+  external-service:
+   name: camel-consul-server
+   sayHello : /services/camel-consul-server/hello/sayHello
+   sayHelloSpring : /services/spring/hello
+   goodbye : /services/camel-consul-server/goodbye/sayGoodBye
+
+  swagger:
+    path: /v2/api-docs
+    title: 'camel consul client'
+    version: 'version1.0.0-1400/11/07'
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    display-operation-id: true
+    display-request-duration: true
+    urls:
+      - name: camel consul server
+        url: ${service.api.base-path}${service.swagger.path}
+  api-docs:
+    groups:
+      enabled: true
+
+camel:
+  springboot:
+    route-controller-thread-pool-size: 30000
+    producer-template-cache-size: 15000
+    consumer-template-cache-size: 15000
+    jmx-management-statistics-level: extended
+  cloud:
+    consul:
+      service-host: localhost
+      url: http://localhost:8500
+      id: ${spring.application.name}
+      registrationScheduled: 30000
+    service-call:
+      default-load-balancer: true
+  servlet:
+    mapping:
+      context-path: ${service.api.base-path}/*
+
+  dataformat:
+    json-jackson:
+      auto-discover-object-mapper: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+      base-path: /actuators/camel-consul-client
