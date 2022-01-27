@@ -13,6 +13,7 @@ For further reference, please consider the following sections:
 * [apache camel serviceCall](https://camel.apache.org/components/3.14.x/eips/serviceCall-eip.html)
 * [apache camel Consul](https://camel.apache.org/components/3.14.x/consul-component.html)
 * [spring doc openapi](https://springdoc.org/)
+* [consul discovery](https://www.consul.io/)
 ### Guides
 
 The following guides illustrate how to use some features concretely:
